@@ -1,2 +1,36 @@
 ---
-# tasks file for bamboo-agent
+- name: Create bamboo user
+  user: name=bamboo groups=wheel
+
+- name: Create bamboo home directory
+  file: dest=/home/bamboo state=directory owner=bamboo group=bamboo
+
+- name: Download bamboo elastic agent zip
+  get_url: dest=/tmp/bamboo-elastic-agent.zip url={{ bamboo_elastic_agent_url }}
+
+- name: Create bamboo elastic agent directory
+  file: dest={{ bamboo_elastic_agent_dir }} state=directory owner=bamboo group=bamboo
+
+- name: Unzip bamboo agent
+  unarchive: dest={{ bamboo_elastic_agent_dir }} src=/tmp/bamboo-elastic-agent.zip copy=false
+
+- name: Change permissions of bamboo elastic agent directory
+  command: /bin/chmod -R 755 {{ bamboo_elastic_agent_dir }}
+
+- name: Copy bamboo motd
+  command: /bin/cp {{ bamboo_elastic_agent_dir }}/etc/motd /etc/motd
+
+- name: Copy bamboo profile.d script
+  command: /bin/cp {{ bamboo_elastic_agent_dir }}/etc/profile.sh /etc/profile.d/bamboo.sh
+
+- name: Copy bamboo rc.d script
+  command: /bin/cp {{ bamboo_elastic_agent_dir }}/etc/rc.local /etc/rc.d/init.d/bamboo-elastic-agent
+
+- name: Symlink bamboo init.d script
+  file: dest=/etc/rc.d/bamboo-elastic-agent src=/etc/init.d/bamboo-elastic-agent state=link
+
+- name: Create bamboo elastic agent first run file
+  file: dest=/root/firstrun state=touch
+
+- name: Start bamboo elastic agent
+  service: name=bamboo-elastic-agent state=started
