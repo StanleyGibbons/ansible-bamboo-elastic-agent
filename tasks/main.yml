@@ -23,14 +23,13 @@
 - name: Copy bamboo profile.d script
   command: /bin/cp {{ bamboo_elastic_agent_dir }}/etc/profile.sh /etc/profile.d/bamboo.sh
 
-- name: Copy bamboo rc.d script
-  command: /bin/cp {{ bamboo_elastic_agent_dir }}/etc/rc.local /etc/rc.d/init.d/bamboo-elastic-agent
+- name: Source bamboo rc.d script
+  lineinfile:
+    dest: /etc/rc.d/rc.local
+    line: source {{ bamboo_elastic_agent_dir }}/etc/rc.local
 
-- name: Symlink bamboo init.d script
-  file: dest=/etc/rc.d/bamboo-elastic-agent src=/etc/init.d/bamboo-elastic-agent state=link
+- name: Prepare instance for ami creation
+  command: "{{ bamboo_elastic_agent_dir }}/bin/prepareInstanceForSaving.sh"
 
 - name: Create bamboo elastic agent first run file
   file: dest=/root/firstrun state=touch
-
-- name: Start bamboo elastic agent
-  service: name=bamboo-elastic-agent state=started

@@ -3,6 +3,8 @@ Role Name
 
 A brief description of the role goes here.
 
+https://confluence.atlassian.com/bamboo/creating-a-custom-elastic-image-linux-296093037.html
+
 Requirements
 ------------
 
