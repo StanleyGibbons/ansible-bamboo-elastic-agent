@@ -1,3 +1,4 @@
 ---
 bamboo_elastic_agent_dir: /opt/bamboo-elastic-agent
-bamboo_elastic_agent_url: https://maven.atlassian.com/content/repositories/atlassian-public/com/atlassian/bamboo/atlassian-bamboo-elastic-image/4.1/atlassian-bamboo-elastic-image-4.1.zip
+bamboo_elastic_agent_ver: 5.3
+bamboo_elastic_agent_url: https://maven.atlassian.com/content/repositories/atlassian-public/com/atlassian/bamboo/atlassian-bamboo-elastic-image/{{ bamboo_elastic_agent_ver }}/atlassian-bamboo-elastic-image-{{ bamboo_elastic_agent_ver }}.zip
